@@ -11,4 +11,5 @@ import Foundation
 struct Constants {
     static let navigationTitle = "My to-do list"
     static let cellId = "reusableCell"
+    static let listDetailsStoryboardID = "ListDetailsViewController"
 }
