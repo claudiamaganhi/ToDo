@@ -15,8 +15,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TGi-uV-MdF">
+                                <rect key="frame" x="0.0" y="88" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="odK-QE-PFC"/>
+                                </connections>
+                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5rM-Q2-zhr">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="154" width="414" height="708"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reusableCell" id="G2u-mJ-wUW">
@@ -35,17 +42,21 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.5568627451" green="0.77647058820000003" blue="0.7725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="5rM-Q2-zhr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="0fe-J6-3fl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5rM-Q2-zhr" secondAttribute="trailing" id="S0j-ee-ErV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5rM-Q2-zhr" secondAttribute="bottom" id="S56-Vd-0md"/>
+                            <constraint firstItem="5rM-Q2-zhr" firstAttribute="top" secondItem="TGi-uV-MdF" secondAttribute="bottom" constant="10" id="XcD-NB-tGQ"/>
+                            <constraint firstItem="TGi-uV-MdF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ehH-QG-K2q"/>
+                            <constraint firstItem="TGi-uV-MdF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="i87-f0-JnG"/>
+                            <constraint firstItem="TGi-uV-MdF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ozE-mb-sxQ"/>
                             <constraint firstItem="5rM-Q2-zhr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="stV-xs-CxW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="adE-tO-7uJ"/>
                     <connections>
+                        <outlet property="searchBar" destination="TGi-uV-MdF" id="zop-FO-plE"/>
                         <outlet property="tableView" destination="5rM-Q2-zhr" id="umr-eK-dip"/>
                     </connections>
                 </viewController>

@@ -12,6 +12,8 @@ import CoreData
 class ToDoListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     
     var lists = [List]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -52,7 +54,7 @@ class ToDoListViewController: UIViewController {
     private func addToLists(title: String?) {
         let newList = List(context: self.context)
         guard let listTitle = title else { return }
-        newList.title = listTitle
+        newList.title = listTitle.capitalized
         newList.done = false
         lists.append(newList)
         saveList()
@@ -67,19 +69,19 @@ class ToDoListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func loadList() {
-        let request: NSFetchRequest<List> = List.fetchRequest()
+    private func loadList(request: NSFetchRequest<List> = List.fetchRequest()) {
         do {
             lists = try context.fetch(request)
         } catch let error {
              print("Couldn't fetch the lists - Error: \(error.localizedDescription)")
         }
-        
+        tableView.reloadData()
     }
     
 }
 
 extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lists.count
     }
@@ -99,5 +101,26 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         saveList()
     }
     
+}
+
+extension ToDoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<List> = List.fetchRequest()
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text ?? "")
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadList(request: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchBar.text?.count == 0 {
+            loadList()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
     
 }
