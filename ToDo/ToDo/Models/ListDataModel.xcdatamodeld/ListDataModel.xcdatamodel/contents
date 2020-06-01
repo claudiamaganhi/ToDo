@@ -3,8 +3,14 @@
     <entity name="List" representedClassName=".List" syncable="YES" codeGenerationType="class">
         <attribute name="done" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
+        <relationship name="parentList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListCategory" inverseName="category" inverseEntity="ListCategory"/>
+    </entity>
+    <entity name="ListCategory" representedClassName=".ListCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="name" attributeType="String"/>
+        <relationship name="category" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="parentList" inverseEntity="List"/>
     </entity>
     <elements>
-        <element name="List" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="List" positionX="29.8984375" positionY="-2946.41796875" width="128" height="88"/>
+        <element name="ListCategory" positionX="-168.7265625" positionY="-2944.40625" width="128" height="73"/>
     </elements>
 </model>
