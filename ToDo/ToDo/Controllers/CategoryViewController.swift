@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class CategoryViewController: UIViewController {
     
@@ -79,17 +80,19 @@ class CategoryViewController: UIViewController {
 
 }
 
-extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
+extension CategoryViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCell, for: indexPath) as! SwipeTableViewCell
         let category = categories[indexPath.row]
         cell.selectionStyle = .none
         cell.textLabel?.text = category.name
+        cell.accessoryType = .disclosureIndicator
+        cell.delegate = self
         return cell
     }
     
@@ -99,6 +102,23 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
             toDoViewController.selectedCategory = categories[indexPath.row]
             navigationController?.pushViewController(toDoViewController, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "delete") { action, indexPath in
+            self.context.delete(self.categories[indexPath.row])
+            self.categories.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.saveCategories()
+        }
+        
+        deleteAction.image = UIImage(named: "delete")
+        deleteAction.title = "Delete"
+        deleteAction.textColor = .black
+        
+        return [deleteAction]
     }
     
 }

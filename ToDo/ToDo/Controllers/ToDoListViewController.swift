@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class ToDoListViewController: UIViewController {
     
@@ -94,17 +95,18 @@ class ToDoListViewController: UIViewController {
     
 }
 
-extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
+extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.toDoCellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.toDoCellId, for: indexPath) as! SwipeTableViewCell
         let list = lists[indexPath.row]
         cell.textLabel?.text = list.title
         cell.accessoryType =  list.done ? .checkmark : .none
+        cell.delegate = self
         
         return cell
     }
@@ -113,6 +115,23 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         lists[indexPath.row].done = !lists[indexPath.row].done
         saveList()
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "delete") { action, indexPath in
+            self.context.delete(self.lists[indexPath.row])
+            self.lists.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.saveList()
+        }
+        
+        deleteAction.image = UIImage(named: "delete")
+        deleteAction.title = "Delete"
+        deleteAction.textColor = .black
+        
+        return [deleteAction]
     }
     
 }
