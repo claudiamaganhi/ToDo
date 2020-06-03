@@ -21,9 +21,14 @@ class ToDoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = selectedCategory?.name
         setAddListButton()
         loadList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        title = selectedCategory?.name
+        navigationController?.navigationBar.tintColor = .black
     }
     
     private func setAddListButton() {

@@ -10,7 +10,7 @@ import Foundation
 
 struct Constants {
     
-    static let navigationTitle = "My To-Do lists"
+    static let navigationTitle = "To Do"
     static let toDoCellId = "toDoCellId"
     static let toDoStoryboardID = "ToDoListViewController"
     static let categoryStoryboardID = "CategoryViewController"
